@@ -1,1 +1,2 @@
-web: java $JAVA_OPTS -jar target/dominoshelper-1.0-SNAPSHOT.jar 
+release: mvn assembly:single
+web: java $JAVA_OPTS -jar target/dominoshelper.jar 
