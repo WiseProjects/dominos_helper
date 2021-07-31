@@ -21,7 +21,7 @@ public class MyServer {
         QueuedThreadPool threadPool = new QueuedThreadPool(maxThreads, minThreads, idleTimeout);
         server = new Server(threadPool);
         ServerConnector connector = new ServerConnector(server);
-        //connector.setPort(8013);
+        connector.setPort(8080);
         //connector.setHost("127.0.0.1");
         server.setConnectors(new Connector[]{connector});
 
