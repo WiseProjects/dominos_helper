@@ -1,5 +1,7 @@
-package com.wise.dominoshelper;
+package com.wise.dominoshelper.http;
 
+import com.wise.dominoshelper.pizza.PizzaMenuServlet;
+import com.wise.dominoshelper.pizza.PizzaTypeServlet;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -22,13 +24,13 @@ public class MyServer {
         server = new Server(threadPool);
         ServerConnector connector = new ServerConnector(server);
         connector.setPort(Integer.valueOf(System.getenv("PORT")));
-        //connector.setHost("127.0.0.1");
         server.setConnectors(new Connector[]{connector});
 
         ServletHandler servletHandler = new ServletHandler();
         server.setHandler(servletHandler);
 
-        servletHandler.addServletWithMapping(TestServlet.class, "/status");
+        servletHandler.addServletWithMapping(PizzaMenuServlet.class, "/pizzamenu");
+        servletHandler.addServletWithMapping(PizzaTypeServlet.class, "/pizztypes");
 
         server.start();
     }
