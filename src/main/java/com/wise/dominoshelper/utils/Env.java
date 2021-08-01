@@ -7,4 +7,5 @@ package com.wise.dominoshelper.utils;
 public class Env {
 
     public static String MENU_PIZZA_PATH = "./data/pizzaMenu.json";
+    public static String MENU_PIZZA = "";
 }

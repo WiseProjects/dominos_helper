@@ -42,15 +42,15 @@ public class DominosUpdater {
             Matcher m = p.matcher(body);
             pizzaMenu.clear();
             while (m.find()) {
-                String name = m.group(0).replaceAll(".*product-card__title\">(.*?)<.*", "$1").trim().toLowerCase();
+                String name = m.group(0).replaceAll(".*product-card__title\">(.*?)<.*", "$1").trim().toLowerCase().replace("zz", "ц");
                 String descr = m.group(0).replaceAll(".*card__description\">(.*?)<.*", "$1").trim().replace("&#x27;", "'");
                 String code = m.group(0).replaceAll(".*data-code=\"(.*?)\".*", "$1");
                 pizzaMenu.put(name, new PizzaInfo(name, code, descr));
             }
 
             Gson g = new GsonBuilder().setPrettyPrinting().create();
-            String menu = g.toJson(pizzaMenu);
-            Files.write(Paths.get(Env.MENU_PIZZA_PATH), menu.getBytes("utf-8"));
+            Env.MENU_PIZZA = g.toJson(pizzaMenu);
+            //Files.write(Paths.get(Env.MENU_PIZZA_PATH), menu.getBytes("utf-8"));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
