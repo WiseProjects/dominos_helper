@@ -30,7 +30,7 @@ public class MyServer {
         server.setHandler(servletHandler);
 
         servletHandler.addServletWithMapping(PizzaMenuServlet.class, "/pizzamenu");
-        servletHandler.addServletWithMapping(PizzaTypeServlet.class, "/pizztypes");
+        servletHandler.addServletWithMapping(PizzaTypeServlet.class, "/pizzatypes");
 
         server.start();
     }

@@ -49,7 +49,7 @@ public class DominosUpdater {
             }
 
             Gson g = new GsonBuilder().setPrettyPrinting().create();
-            String menu = g.toJson(pizzaMenu);
+            String menu = g.toJson(pizzaMenu).toLowerCase();
             Files.write(Paths.get(Env.MENU_PIZZA_PATH), menu.getBytes("utf-8"));
         } catch (IOException ex) {
             ex.printStackTrace();
