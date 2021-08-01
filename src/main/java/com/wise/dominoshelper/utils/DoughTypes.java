@@ -15,22 +15,22 @@ public class DoughTypes {
     private Gson g = new GsonBuilder().setPrettyPrinting().create();
 
     public DoughTypes() {
-        types.put("ХотДог борт", "HD");
-        types.put("Классика", "");
-        types.put("Ультратонкое", "ULT");
-        types.put("Тонкое", "IT");
-        types.put("Сырный борт", "CR");
+        types.put("хотдог борт", "HD");
+        types.put("классика", "");
+        types.put("ультратонкое", "ULT");
+        types.put("тонкое", "IT");
+        types.put("сырный борт", "CR");
     }
 
     public String getTypes22() {
         return "{\n"
-                + "  \"Классика\": \"\",\n"
+                + "  \"классика\": \"\",\n"
                 + "}";
     }
 
     public String getTypes36() {
         Map res = new HashMap(types);
-        res.remove("Ультратонкое");
+        res.remove("ультратонкое");
         return g.toJson(res);
     }
 
