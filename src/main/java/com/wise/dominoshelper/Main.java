@@ -1,9 +1,6 @@
 package com.wise.dominoshelper;
 
 import com.wise.dominoshelper.http.MyServer;
-import com.wise.dominoshelper.utils.DoughTypes;
-import com.wise.dominoshelper.utils.Env;
-import java.io.File;
 
 /**
  *
@@ -12,7 +9,6 @@ import java.io.File;
 public class Main {
 
     public static void main(String args[]) throws Exception {
-        new File(Env.MENU_PIZZA_PATH).getParentFile().mkdirs();
         Thread menu = new Thread() {
             DominosUpdater du = new DominosUpdater();
 
@@ -22,7 +18,7 @@ public class Main {
                     while (true) {
                         du.getMenu();
                         System.out.println("Menu was updated");
-                        Thread.sleep(1000 * 60 * 60);
+                        Thread.sleep(1000 * 60 * 29);
                     }
                 } catch (InterruptedException v) {
                     v.printStackTrace();

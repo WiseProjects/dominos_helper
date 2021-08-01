@@ -18,6 +18,7 @@ public class PizzaTypeServlet extends HttpServlet {
 
     DoughTypes dt = new DoughTypes();
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String size = "22";
         if (request.getParameter("size") != null) {
