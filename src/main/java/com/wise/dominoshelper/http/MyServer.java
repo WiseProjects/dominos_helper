@@ -1,5 +1,6 @@
 package com.wise.dominoshelper.http;
 
+import com.wise.dominoshelper.pizza.OrderServlet;
 import com.wise.dominoshelper.pizza.PizzaMenuServlet;
 import com.wise.dominoshelper.pizza.PizzaTypeServlet;
 import org.eclipse.jetty.server.Connector;
@@ -31,7 +32,7 @@ public class MyServer {
 
         servletHandler.addServletWithMapping(PizzaMenuServlet.class, "/pizzamenu");
         servletHandler.addServletWithMapping(PizzaTypeServlet.class, "/pizzatypes");
-
+        servletHandler.addServletWithMapping(OrderServlet.class, "/order");
         server.start();
     }
 

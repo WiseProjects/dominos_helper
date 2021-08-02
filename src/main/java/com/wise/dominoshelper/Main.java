@@ -1,7 +1,7 @@
 package com.wise.dominoshelper;
 
+import com.wise.dominoshelper.utils.DominosUpdater;
 import com.wise.dominoshelper.http.MyServer;
-import org.apache.http.client.methods.HttpGet;
 
 /**
  *
@@ -32,6 +32,5 @@ public class Main {
         MyServer server = new MyServer();
         server.start();
 
-//        new DominosUpdater().getMenu();
     }
 }
