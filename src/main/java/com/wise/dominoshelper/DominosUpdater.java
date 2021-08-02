@@ -2,6 +2,7 @@ package com.wise.dominoshelper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jayway.jsonpath.JsonPath;
 import com.wise.dominoshelper.http.HttpClient;
 import com.wise.dominoshelper.pizza.PizzaInfo;
 import com.wise.dominoshelper.utils.Env;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,36 +26,38 @@ import org.apache.http.client.methods.HttpGet;
  */
 public class DominosUpdater {
 
-    private static final String MENU_PIZZA_URL = "https://dominos.by/pizza";
+    private static final String MENU_PIZZA_URL = "https://dominos.by/api/web/products?city_id=2&lang=ru";
+    private static final String KEEP_ALIVE_URL = "https://alicepizza.herokuapp.com/pizzamenu";
     private final HttpClient http = new HttpClient();
     private final Map<String, PizzaInfo> pizzaMenu = new HashMap<>();
-
-    public DominosUpdater() {
-
-    }
+    private final HttpGet keepalive = new HttpGet(KEEP_ALIVE_URL);
+    private final HttpGet getMenu = new HttpGet(MENU_PIZZA_URL);
 
     public void getMenu() {
         try {
-            HttpGet request = new HttpGet(MENU_PIZZA_URL);
-            http.get(request);
+            http.get(getMenu);
             String body = http.getData();
 
-            Pattern p = Pattern.compile("product-card product-card--vertical.*?modifications");
-            Matcher m = p.matcher(body);
-            pizzaMenu.clear();
-            while (m.find()) {
-                String name = m.group(0).replaceAll(".*product-card__title\">(.*?)<.*", "$1").trim().toLowerCase().replace("zz", "ц");
-                String descr = m.group(0).replaceAll(".*card__description\">(.*?)<.*", "$1").trim().replace("&#x27;", "'");
-                String code = m.group(0).replaceAll(".*data-code=\"(.*?)\".*", "$1");
-                pizzaMenu.put(name, new PizzaInfo(name, code, descr));
+            List<Map<String, Object>> menu = JsonPath.read(body, "$.entities.products.*[?(@.category == 'pizza')]");
+
+            for (Map<String, Object> map : menu) {
+                String title = map.get("title").toString().toLowerCase().trim().replace("zz", "ц");
+                String description = map.get("toppingDescription").toString();
+                String code = getCode(map.get("modifications"));
+                pizzaMenu.put(title, new PizzaInfo(title, code, description));
             }
 
             Gson g = new GsonBuilder().setPrettyPrinting().create();
             Env.MENU_PIZZA = g.toJson(pizzaMenu);
-            //Files.write(Paths.get(Env.MENU_PIZZA_PATH), menu.getBytes("utf-8"));
+            
+            http.get(keepalive);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
 
+    }
+
+    private String getCode(Object mod) {
+        return mod.toString().replaceAll(".*?\\\"(.*?)\\\".*", "$1").replaceAll("\\d+", "");
     }
 }

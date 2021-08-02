@@ -11,10 +11,12 @@ import java.util.Map;
  */
 public class DoughTypes {
 
-    private Map<String, String> types = new HashMap();
-    private Gson g = new GsonBuilder().setPrettyPrinting().create();
+    private final Map<String, String> types;
+    private Gson g;
 
     public DoughTypes() {
+        g = new GsonBuilder().setPrettyPrinting().create();
+        types = new HashMap();
         types.put("хотдог борт", "HD");
         types.put("классика", "");
         types.put("ультратонкое", "ULT");
